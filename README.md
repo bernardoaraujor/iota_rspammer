@@ -6,6 +6,8 @@ Uses asynchronous message passing between spammer threads, each with its own IOT
 
 Allows custom Message Payload and Index, custom number of threads and optional local PoW.
 
+Useful for experimentation with spamming where you don't want to necessarily use a Spammer Node Plugin.
+
 ## Build
 ```
 $ sudo apt-get install libgsl0-dev
