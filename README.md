@@ -1,6 +1,6 @@
 # IOTA RSpammer
 
-Rust-based spammer client for IOTA.
+Rust-based IOTA 1.5 Client Spammer (Post Chrysalis pt.2)
 
 Uses asynchronous message passing between spammer threads, each with its own IOTA Client.
 
