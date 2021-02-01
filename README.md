@@ -7,6 +7,18 @@ Uses asynchronous message passing between spammer threads, each with its own IOT
 Allows custom Message Payload and Index, custom number of threads and optional local PoW.
 
 Useful for experimentation with spamming where you don't want to necessarily use a Spammer Node Plugin.
+Provides insight into underlying statistical patterns of the protocol from the perspective of an IOTA client.
+
+## Progress
+- [x] CLI args
+- [x] Async MultiThread Messaging
+- [x] Non-Valued Message
+- [ ] Non-Valued Message Variable Payload
+- [ ] Non-Valued Message Statistics
+- [ ] Valued Message (via `wallet.rs` + [faucet.testnet.chrysalis2.com](https://faucet.testnet.chrysalis2.com/))
+- [ ] Valued Message Variable Payload
+- [ ] Valued Message Statistics
+- [ ] Format output to files
 
 ## Build
 ```
