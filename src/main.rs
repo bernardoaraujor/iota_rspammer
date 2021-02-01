@@ -5,12 +5,6 @@ use structopt::StructOpt;
 use url::{Url};
 extern crate rgsl;
 
-#[derive(Debug)]
-struct MsgResult {
-    msg: iota::MessageId,
-    delta_t: Duration,
-}
-
 #[derive(Debug, StructOpt)]
 struct Opt {
     /// Message Payload
@@ -36,6 +30,13 @@ struct Opt {
     /// Set Timeout (seconds)
     #[structopt(short = "t", long = "timeout", default_value = "500")]
     timeout: u32,
+}
+
+#[derive(Debug)]
+struct MsgResult {
+    thread_n: u32,
+    msg: iota::MessageId,
+    delta_t: Duration,
 }
 
 #[tokio::main]
@@ -88,6 +89,7 @@ async fn main() {
                     .unwrap();
                 let delta_t = start.elapsed();
                 let msg_result = MsgResult {
+                    thread_n: n,
                     msg: message.id().0,
                     delta_t: delta_t,
                 };
@@ -105,10 +107,11 @@ async fn main() {
         let delta_avg = rgsl::statistics::mean(&delta_vec, 1, delta_vec.len());
 
         println!(
-            "messageId: {}, duration: {} ms, average duration: {} ms",
+            "thread n: {}, messageId: {}, duration: {} ms, average mps: {}",
+            msg_result.thread_n,
             msg_result.msg,
             msg_result.delta_t.as_millis(),
-            delta_avg
+            1.0 / delta_avg*1000.0
         );
     }
 }
