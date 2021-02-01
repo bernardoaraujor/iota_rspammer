@@ -1,6 +1,8 @@
 use iota::{Api, Client};
 use std::time::{Duration, Instant};
 use tokio::sync::mpsc;
+use structopt::StructOpt;
+use url::{Url};
 extern crate rgsl;
 
 #[derive(Debug)]
@@ -9,37 +11,77 @@ struct MsgResult {
     delta_t: Duration,
 }
 
+#[derive(Debug, StructOpt)]
+struct Opt {
+    /// Message Payload
+    #[structopt(short = "m", long = "msg", default_value = "iota_rspammer be spammin'!")]
+    msg: String,
+
+    /// Message index
+    #[structopt(short = "i", long = "index", default_value = "iota_rspammer")]
+    index: String,
+
+    /// Node URL
+    #[structopt(short = "u", long = "url", parse(try_from_str = Url::parse), default_value = "http://api.hornet-1.testnet.chrysalis2.com")]
+    url: Url,
+
+    /// Number of Spammer Threads
+    #[structopt(short = "n", long = "n_threads", default_value = "1")]
+    n_threads: u32,
+
+    /// Enable local_pow
+    #[structopt(short = "l", long = "local_pow")]
+    local_pow: bool,
+
+    /// Set Timeout (seconds)
+    #[structopt(short = "t", long = "timeout", default_value = "500")]
+    timeout: u32,
+}
+
 #[tokio::main]
 async fn main() {
-    let url = "http://api.hornet-1.testnet.chrysalis2.com";
-    let msg = "iota_rspammer be spammin'";
-    let index = "INDEX";
+    let opt = Opt::from_args();
+
+    let msg = opt.msg;
+    let index = opt.index;
+    let url = opt.url;
+    let n_threads = opt.n_threads;
+    let local_pow = opt.local_pow;
+
+    println!("Starting iota_rspammer with the following parameters:");
+    println!("message payload: {}", msg);
+    println!("message index: {}", index);
+    println!("node url: {}", url.as_str());
+    println!("local PoW: {}\n", local_pow);
+
     let (tx, mut rx): (
         mpsc::UnboundedSender<MsgResult>,
         mpsc::UnboundedReceiver<MsgResult>,
     ) = mpsc::unbounded_channel();
-    for n in 0..4 {
-        let local_url = url.clone();
-        let local_tx = tx.clone();
-        let local_msg = msg.clone();
-        let local_n = n.clone();
-        let local_index = index.clone();
+    for n in 0..n_threads {
+        let thread_url = url.clone();
+        let thread_tx = tx.clone();
+        let thread_msg = msg.clone();
+        let thread_n = n.clone();
+        let thread_index = index.clone();
+        let thread_local_pow = local_pow.clone();
+
         tokio::spawn(async move {
             let iota = Client::builder() // Crate a client instance builder
-                .with_node(local_url) // Insert the node here
+                .with_node(thread_url.as_str()) // Insert the node here
                 .unwrap()
-                .with_local_pow(false)
+                .with_local_pow(thread_local_pow)
                 //.with_request_timeout(Duration::new(500, 0))
                 .with_api_timeout(Api::PostMessageWithRemotePow, Duration::new(500, 0))
                 .finish()
                 .unwrap();
-            println!("Created IOTA Client n [{}]", local_n);
+            println!("Created IOTA Client n [{}]", thread_n);
             loop {
                 let start = Instant::now();
-                let msg = format!("{} from thread [{}]!", local_msg, local_n);
+                let msg = format!("{} from thread [{}]!", thread_msg, thread_n);
                 let message = iota
                     .send()
-                    .with_index(local_index)
+                    .with_index(&thread_index)
                     .with_data(msg.as_bytes().to_vec())
                     .finish()
                     .await
@@ -49,7 +91,7 @@ async fn main() {
                     msg: message.id().0,
                     delta_t: delta_t,
                 };
-                local_tx.send(msg_result).unwrap();
+                thread_tx.send(msg_result).unwrap();
             }
         });
     }
