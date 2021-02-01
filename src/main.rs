@@ -57,12 +57,16 @@ async fn main() {
     let mut msg_vec = vec![];
     loop {
         let msg_result = rx.recv().await.unwrap();
-        println!(
-            "messageId: {}, delta_t: {}",
-            msg_result.msg,
-            msg_result.delta_t.as_millis()
-        );
         msg_vec.push(msg_result.msg);
-        delta_vec.push(msg_result.delta_t);
+
+        delta_vec.push(msg_result.delta_t.as_millis() as f64);
+        let delta_avg = rgsl::statistics::mean(&delta_vec, 1, delta_vec.len());
+
+        println!(
+            "messageId: {}, duration: {} ms, average duration: {} ms",
+            msg_result.msg,
+            msg_result.delta_t.as_millis(),
+            delta_avg
+        );
     }
 }
