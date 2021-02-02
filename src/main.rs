@@ -101,7 +101,7 @@ async fn main() {
                 .with_api_timeout(Api::PostMessageWithRemotePow, Duration::new(500, 0))
                 .finish()
                 .unwrap();
-            println!("Created IOTA Client n [{}]", thread_n);
+            println!("Created IOTA Client {}.", thread_n);
             loop {
                 let start = Instant::now();
                 let message = iota
@@ -131,7 +131,7 @@ async fn main() {
         let delta_avg = rgsl::statistics::mean(&delta_vec, 1, delta_vec.len());
 
         println!(
-            "thread n: {}, messageId: {}, duration: {} ms, average mps: {}",
+            "thread n: {}, messageId: {}, confirmation time: {} ms, global average mps: {}",
             msg_result.thread_n,
             msg_result.msg,
             msg_result.delta_t.as_millis(),

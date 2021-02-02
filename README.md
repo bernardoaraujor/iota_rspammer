@@ -51,20 +51,16 @@ OPTIONS:
 ```
 
 ```
-$ cargo run -- -n 3 -m 32 -i msg_index -u http://api.hornet-1.testnet.chrysalis2.com/ -l
+$ cargo run -- -n 3 -m 32 -i rspammer_index -u http://api.hornet-1.testnet.chrysalis2.com/ -l
 Starting iota_rspammer with the following parameters:
 message payload size: 32 bytes
-message index: msg_index
+message index: iota_rspammer
 node url: http://api.hornet-1.testnet.chrysalis2.com/
-local PoW: true
+local PoW: false
 
-Created IOTA Client n [0]
-Created IOTA Client n [2]
-Created IOTA Client n [1]
-thread n: 2, messageId: da36752454db418e0e6405c662226a4aa6a2f6aa3668cf2ebc6ee55519bedc30, duration: 8048 ms, average mps: 0.12425447316103379
-thread n: 1, messageId: 4e289fa5e1f75e2b49df47763e34c2d7aa0a3d30bb90864aad5e0cb90dcacb15, duration: 9071 ms, average mps: 0.11682925404521291
-thread n: 2, messageId: 33a666fd42910f6f8be5c2803aca4e3fc7012815bb543e2a6bac0a756c95ea2e, duration: 3993 ms, average mps: 0.14209928003031452
-thread n: 2, messageId: da3e9b8d840237ac2aee19b580b637d94e975ab004b6ba912717163e1047d360, duration: 3174 ms, average mps: 0.1647039446594746
-thread n: 0, messageId: 2be344290c1eaa85aa961812e9aeae4663eb4ad02be789ec68a73438e3c25e00, duration: 28529 ms, average mps: 0.09467007478935908
+Created IOTA Client 1.
+Created IOTA Client 0.
+thread n: 1, messageId: 112201254220a5322877ea31c4bc91d5fc3563737ac1d42930bfdb0751e3e636, confirmation time: 5557 ms, global average mps: 0.17995321216483715
+thread n: 0, messageId: 623720ef043c0c8f653dff6cfcd1eb129c9c6c1a5b336608b02b0c6bc36ccb5f, confirmation time: 8799 ms, global average mps: 0.13931457230426303
 
 ```
