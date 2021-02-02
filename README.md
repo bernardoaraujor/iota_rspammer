@@ -13,10 +13,10 @@ Provides insight into underlying statistical patterns of the protocol from the p
 - [x] CLI args
 - [x] Async MultiThread Messaging
 - [x] Non-Valued Message
-- [ ] Non-Valued Message Variable Payload
+- [x] Non-Valued Message Variable Payload Size
 - [ ] Non-Valued Message Statistics
 - [ ] Valued Message (via `wallet.rs` + [faucet.testnet.chrysalis2.com](https://faucet.testnet.chrysalis2.com/))
-- [ ] Valued Message Variable Payload
+- [ ] Valued Message Variable Payload Size
 - [ ] Valued Message Statistics
 - [ ] Format output to files
 
@@ -43,7 +43,7 @@ FLAGS:
 
 OPTIONS:
     -i, --index <index>            Message index [default: iota_rspammer]
-    -m, --msg <msg>                Message Payload [default: iota_rspammer be spammin'!]
+    -m, --msg_size <msg_size>      Message Payload Size (bytes) [default: 10]
     -n, --n_threads <n-threads>    Number of Spammer Threads [default: 1]
     -t, --timeout <timeout>        Set Timeout (seconds) [default: 500]
     -u, --url <url>                Node URL [default: http://api.hornet-1.testnet.chrysalis2.com]
@@ -51,9 +51,9 @@ OPTIONS:
 ```
 
 ```
-$ cargo run -- -n 3 -m msg_payload -i msg_index -u http://api.hornet-1.testnet.chrysalis2.com/ -l
+$ cargo run -- -n 3 -m 32 -i msg_index -u http://api.hornet-1.testnet.chrysalis2.com/ -l
 Starting iota_rspammer with the following parameters:
-message payload: msg_payload
+message payload size: 32 bytes
 message index: msg_index
 node url: http://api.hornet-1.testnet.chrysalis2.com/
 local PoW: true

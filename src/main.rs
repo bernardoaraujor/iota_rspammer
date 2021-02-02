@@ -1,3 +1,4 @@
+use rand::Rng;
 use iota::{Api, Client};
 use std::time::{Duration, Instant};
 use tokio::sync::mpsc;
@@ -5,10 +6,31 @@ use structopt::StructOpt;
 use url::{Url};
 extern crate rgsl;
 
+fn parse_msg_size(size_str: String) -> usize {
+    let size = match size_str.parse::<i32>() {
+        Ok(n) => n,
+        Err(e) => panic!("msg_size parameter must be integer, got {}.", size_str),
+    };
+    if size < 0 {
+        panic!("msg_size parameter must be non-negative integer.");
+    }
+    size as usize
+}
+
+fn get_random_msg(size: usize) -> Vec<u8>{
+    let mut rng = rand::thread_rng();
+    let mut random_bytes = vec![];
+    for n in 0..size {
+        random_bytes.push(rng.gen::<u8>());
+    }
+
+    random_bytes
+}
+
 #[derive(Debug, StructOpt)]
 struct Opt {
-    /// Message Payload
-    #[structopt(short = "m", long = "msg", default_value = "iota_rspammer be spammin'!")]
+    /// Message Size (bytes)
+    #[structopt(short = "m", long = "msg_size", default_value = "10")]
     msg: String,
 
     /// Message index
@@ -43,14 +65,17 @@ struct MsgResult {
 async fn main() {
     let opt = Opt::from_args();
 
-    let msg = opt.msg;
+    let msg_size_str = opt.msg;
     let index = opt.index;
     let url = opt.url;
     let n_threads = opt.n_threads;
     let local_pow = opt.local_pow;
 
+    let msg_size = parse_msg_size(msg_size_str);
+    let msg = get_random_msg(msg_size);
+
     println!("Starting iota_rspammer with the following parameters:");
-    println!("message payload: {}", msg);
+    println!("message payload size: {} bytes", msg_size);
     println!("message index: {}", index);
     println!("node url: {}", url.as_str());
     println!("local PoW: {}\n", local_pow);
@@ -79,11 +104,10 @@ async fn main() {
             println!("Created IOTA Client n [{}]", thread_n);
             loop {
                 let start = Instant::now();
-                let msg = format!("{} from thread [{}]!", thread_msg, thread_n);
                 let message = iota
                     .send()
                     .with_index(&thread_index)
-                    .with_data(msg.as_bytes().to_vec())
+                    .with_data(thread_msg.to_vec())
                     .finish()
                     .await
                     .unwrap();
