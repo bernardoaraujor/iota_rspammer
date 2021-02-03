@@ -14,10 +14,8 @@ Provides insight into underlying statistical patterns of the protocol from the p
 - [x] Async MultiThread Messaging
 - [x] Non-Valued Message
 - [x] Non-Valued Message Variable Payload Size
-- [ ] Non-Valued Message Statistics
 - [ ] Valued Message (via `wallet.rs` + [faucet.testnet.chrysalis2.com](https://faucet.testnet.chrysalis2.com/))
 - [ ] Valued Message Variable Payload Size
-- [ ] Valued Message Statistics
 - [ ] Format output to files
 
 ## Build
