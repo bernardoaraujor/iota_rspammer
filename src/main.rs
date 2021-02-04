@@ -103,6 +103,11 @@ async fn main() {
                 .unwrap();
             println!("Created IOTA Client {}.", thread_n);
             loop {
+                match iota.get_health().await.unwrap() {
+                    true => continue,
+                    false => panic!("unhealthy node!"),
+                };
+
                 let start = Instant::now();
                 let message = iota
                     .send()
