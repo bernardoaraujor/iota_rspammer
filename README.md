@@ -40,20 +40,21 @@ FLAGS:
     -V, --version      Prints version information
 
 OPTIONS:
-    -i, --index <index>            Message index [default: iota_rspammer]
-    -m, --msg_size <msg_size>      Message Payload Size (bytes) [default: 10]
-    -n, --n_threads <n-threads>    Number of Spammer Threads [default: 1]
-    -t, --timeout <timeout>        Set Timeout (seconds) [default: 500]
-    -u, --url <url>                Node URL [default: http://api.hornet-1.testnet.chrysalis2.com]
-
+    -i, --index <index>              Message index [default: iota_rspammer]
+    -m, --msg_size <msg>             Message Size (bytes) [default: 10]
+    -n, --n_threads <n-threads>      Number of Spammer Threads [default: 1]
+    -d, --network_id <network-id>    Netword ID [default: alphanet1]
+    -t, --timeout <timeout>          Set Timeout (seconds) [default: 500]
+    -u, --url <url>                  Node URL [default: http://api.hornet-1.testnet.chrysalis2.com]
 ```
 
 ```
-$ cargo run -- -n 3 -m 32 -i rspammer_index -u http://api.hornet-1.testnet.chrysalis2.com/ -l
+$ cargo run -- -n 3 -m 32 -i rspammer_index -u http://api.hornet-1.testnet.chrysalis2.com/ -d alphanet1 -l
 Starting iota_rspammer with the following parameters:
 message payload size: 32 bytes
 message index: iota_rspammer
 node url: http://api.hornet-1.testnet.chrysalis2.com/
+network ID: alphanet1
 local PoW: false
 
 Created IOTA Client 1.
