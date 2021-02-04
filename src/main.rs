@@ -76,7 +76,6 @@ async fn main() {
     let local_pow = opt.local_pow;
 
     let msg_size = parse_msg_size(msg_size_str);
-    let msg = get_random_msg(msg_size);
 
     println!("Starting iota_rspammer with the following parameters:");
     println!("message payload size: {} bytes", msg_size);
@@ -93,7 +92,6 @@ async fn main() {
         let thread_url = url.clone();
         let thread_network_id = network_id.clone();
         let thread_tx = tx.clone();
-        let thread_msg = msg.clone();
         let thread_n = n.clone();
         let thread_index = index.clone();
         let thread_local_pow = local_pow.clone();
@@ -118,10 +116,11 @@ async fn main() {
                 };
 
                 let start = Instant::now();
+                let msg = get_random_msg(msg_size);
                 let message = iota
                     .send()
                     .with_index(&thread_index)
-                    .with_data(thread_msg.to_vec())
+                    .with_data(msg.to_vec())
                     .finish()
                     .await
                     .unwrap();
