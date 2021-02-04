@@ -62,7 +62,7 @@ struct Opt {
 struct MsgResult {
     thread_n: u32,
     msg: iota::MessageId,
-    delta_t: Duration,
+    confirmation_t: Duration,
 }
 
 #[tokio::main]
@@ -126,11 +126,11 @@ async fn main() {
                     .finish()
                     .await
                     .unwrap();
-                let delta_t = start.elapsed();
+                let confirmation_t = start.elapsed();
                 let msg_result = MsgResult {
                     thread_n: n,
                     msg: message.id().0,
-                    delta_t: delta_t,
+                    confirmation_t: confirmation_t,
                 };
                 thread_tx.send(msg_result).unwrap();
             }
@@ -139,17 +139,20 @@ async fn main() {
     let mut delta_vec = vec![];
     let mut msg_vec = vec![];
     loop {
+        let start = Instant::now();
         let msg_result = rx.recv().await.unwrap();
-        msg_vec.push(msg_result.msg);
+        let delta_t = start.elapsed();
 
-        delta_vec.push(msg_result.delta_t.as_millis() as f64);
+        msg_vec.push(msg_result.msg);
+        delta_vec.push(delta_t.as_millis() as f64);
+
         let delta_avg = rgsl::statistics::mean(&delta_vec, 1, delta_vec.len());
 
         println!(
             "thread n: {}, messageId: {}, confirmation time: {} ms, global average mps: {}",
             msg_result.thread_n,
             msg_result.msg,
-            msg_result.delta_t.as_millis(),
+            msg_result.confirmation_t.as_millis(),
             1.0 / delta_avg*1000.0
         );
     }
