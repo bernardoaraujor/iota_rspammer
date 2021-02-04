@@ -105,6 +105,7 @@ async fn main() {
                 .unwrap()
                 .with_local_pow(thread_local_pow)
                 .with_network(thread_network_id.as_str())
+                .with_node_sync_disabled()
                 //.with_request_timeout(Duration::new(500, 0))
                 .with_api_timeout(Api::PostMessageWithRemotePow, Duration::new(500, 0))
                 .finish()
@@ -114,7 +115,7 @@ async fn main() {
             println!("Created IOTA Client {}.", thread_n);
             loop {
                 match iota.get_health().await.unwrap() {
-                    true => continue,
+                    true => (),
                     false => panic!("unhealthy node!"),
                 };
 
