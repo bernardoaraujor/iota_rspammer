@@ -1,15 +1,14 @@
-use rand::Rng;
 use iota::{Api, Client};
+use rand::Rng;
 use std::time::{Duration, Instant};
-use tokio::sync::mpsc;
 use structopt::StructOpt;
+use tokio::sync::mpsc;
 use url::{Url};
-extern crate rgsl;
 
 fn parse_msg_size(size_str: String) -> usize {
     let size = match size_str.parse::<i32>() {
         Ok(n) => n,
-        Err(e) => panic!("msg_size parameter must be integer, got {}.", size_str),
+        Err(_) => panic!("msg_size parameter must be integer, got {}.", size_str),
     };
     if size < 0 {
         panic!("msg_size parameter must be non-negative integer.");
@@ -20,7 +19,7 @@ fn parse_msg_size(size_str: String) -> usize {
 fn get_random_msg(size: usize) -> Vec<u8>{
     let mut rng = rand::thread_rng();
     let mut random_bytes = vec![];
-    for n in 0..size {
+    for _ in 0..size {
         random_bytes.push(rng.gen::<u8>());
     }
 
@@ -146,14 +145,19 @@ async fn main() {
         msg_vec.push(msg_result.msg);
         delta_vec.push(delta_t.as_millis() as f64);
 
-        let delta_avg = rgsl::statistics::mean(&delta_vec, 1, delta_vec.len());
+        let delta_avg = mean(&delta_vec);
 
         println!(
             "thread n: {}, messageId: {}, confirmation time: {} ms, global average mps: {}",
             msg_result.thread_n,
             msg_result.msg,
             msg_result.confirmation_t.as_millis(),
-            1.0 / delta_avg*1000.0
+            1.0 / delta_avg * 1000.0
         );
     }
+}
+
+fn mean(list: &[f64]) -> f64 {
+    let sum: f64 = Iterator::sum(list.iter());
+    sum / (list.len() as f64)
 }
