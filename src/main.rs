@@ -40,10 +40,6 @@ struct Opt {
     #[structopt(short = "u", long = "url", parse(try_from_str = Url::parse), default_value = "http://api.hornet-1.testnet.chrysalis2.com")]
     url: Url,
 
-    /// Netword ID
-    #[structopt(short = "d", long = "network_id", default_value = "alphanet1")]
-    network_id: String,
-
     /// Number of Spammer Threads
     #[structopt(short = "n", long = "n_threads", default_value = "1")]
     n_threads: u32,
@@ -71,7 +67,6 @@ async fn main() {
     let msg_size_str = opt.msg;
     let index = opt.index;
     let url = opt.url;
-    let network_id = opt.network_id;
     let n_threads = opt.n_threads;
     let local_pow = opt.local_pow;
 
@@ -81,7 +76,6 @@ async fn main() {
     println!("message payload size: {} bytes", msg_size);
     println!("message index: {}", index);
     println!("node url: {}", url.as_str());
-    println!("network ID: {}", network_id);
     println!("local PoW: {}\n", local_pow);
 
     let (tx, mut rx): (
@@ -90,7 +84,6 @@ async fn main() {
     ) = mpsc::unbounded_channel();
     for n in 0..n_threads {
         let thread_url = url.clone();
-        let thread_network_id = network_id.clone();
         let thread_tx = tx.clone();
         let thread_n = n.clone();
         let thread_index = index.clone();
@@ -101,7 +94,6 @@ async fn main() {
                 .with_node(thread_url.as_str()) // Insert the node here
                 .unwrap()
                 .with_local_pow(thread_local_pow)
-                .with_network(thread_network_id.as_str())
                 //.with_request_timeout(Duration::new(500, 0))
                 .with_api_timeout(Api::PostMessageWithRemotePow, Duration::new(500, 0))
                 .finish()
