@@ -118,7 +118,7 @@ async fn main() {
                 let start = Instant::now();
                 let msg = get_random_msg(msg_size);
                 let message = iota
-                    .send()
+                    .message()
                     .with_index(&thread_index)
                     .with_data(msg.to_vec())
                     .finish()
