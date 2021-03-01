@@ -45,7 +45,7 @@ struct Opt {
     n_threads: u32,
 
     /// Enable local_pow
-    #[structopt(short = "l", long = "local_pow")]
+    #[structopt(short = "l", long = "local_pow", default_value = "true")]
     local_pow: bool,
 
     /// Set Timeout (seconds)
