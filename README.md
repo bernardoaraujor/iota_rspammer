@@ -43,7 +43,6 @@ OPTIONS:
     -i, --index <index>              Message index [default: iota_rspammer]
     -m, --msg_size <msg>             Message Size (bytes) [default: 10]
     -n, --n_threads <n-threads>      Number of Spammer Threads [default: 1]
-    -d, --network_id <network-id>    Netword ID [default: alphanet1]
     -t, --timeout <timeout>          Set Timeout (seconds) [default: 500]
     -u, --url <url>                  Node URL [default: http://api.hornet-1.testnet.chrysalis2.com]
 ```
