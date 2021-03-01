@@ -20,7 +20,7 @@ Provides insight into underlying statistical patterns of the protocol from the p
 
 ## Build
 ```
-$ sudo apt-get install libgsl0-dev
+$ sudo apt-get install libgsl0-dev cargo pkg-config libssl-dev
 $ git clone https://github.com/bernardoaraujor/iota_rspammer.git
 $ cd iota_rspammer
 $ cargo build
@@ -43,7 +43,6 @@ OPTIONS:
     -i, --index <index>              Message index [default: iota_rspammer]
     -m, --msg_size <msg>             Message Size (bytes) [default: 10]
     -n, --n_threads <n-threads>      Number of Spammer Threads [default: 1]
-    -d, --network_id <network-id>    Netword ID [default: alphanet1]
     -t, --timeout <timeout>          Set Timeout (seconds) [default: 500]
     -u, --url <url>                  Node URL [default: http://api.hornet-1.testnet.chrysalis2.com]
 ```
