@@ -1,6 +1,6 @@
 [package]
 name = "iota_rspammer"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Bernardo A. Rodrigues <bernardo.araujo@iota.org>"]
 edition = "2018"
 

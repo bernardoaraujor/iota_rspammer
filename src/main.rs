@@ -44,9 +44,9 @@ struct Opt {
     #[structopt(short = "n", long = "n_threads", default_value = "1")]
     n_threads: u32,
 
-    /// Enable local_pow
-    #[structopt(short = "l", long = "local_pow", default_value = "true")]
-    local_pow: bool,
+    /// Force remote_pow
+    #[structopt(short = "r", long = "remote_pow")]
+    remote_pow: bool,
 
     /// Set Timeout (seconds)
     #[structopt(short = "t", long = "timeout", default_value = "500")]
@@ -68,7 +68,7 @@ async fn main() {
     let index = opt.index;
     let url = opt.url;
     let n_threads = opt.n_threads;
-    let local_pow = opt.local_pow;
+    let remote_pow = opt.remote_pow;
 
     let msg_size = parse_msg_size(msg_size_str);
 
@@ -76,7 +76,7 @@ async fn main() {
     println!("message payload size: {} bytes", msg_size);
     println!("message index: {}", index);
     println!("node url: {}", url.as_str());
-    println!("local PoW: {}\n", local_pow);
+    println!("remote PoW: {}\n", remote_pow);
 
     let (tx, mut rx): (
         mpsc::UnboundedSender<MsgResult>,
@@ -87,13 +87,13 @@ async fn main() {
         let thread_tx = tx.clone();
         let thread_n = n.clone();
         let thread_index = index.clone();
-        let thread_local_pow = local_pow.clone();
+        let thread_remote_pow = remote_pow.clone();
 
         tokio::spawn(async move {
             let iota = Client::builder() // Crate a client instance builder
                 .with_node(thread_url.as_str()) // Insert the node here
                 .unwrap()
-                .with_local_pow(thread_local_pow)
+                .with_local_pow(!thread_remote_pow)
                 //.with_request_timeout(Duration::new(500, 0))
                 .with_api_timeout(Api::PostMessageWithRemotePow, Duration::new(500, 0))
                 .finish()
