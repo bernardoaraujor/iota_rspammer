@@ -48,12 +48,11 @@ OPTIONS:
 ```
 
 ```
-$ cargo run -- -n 3 -m 32 -i rspammer_index -u http://api.hornet-1.testnet.chrysalis2.com/ -d alphanet1 -l
+$ cargo run -- -n 3 -m 32 -i rspammer_index -u http://api.hornet-1.testnet.chrysalis2.com/
 Starting iota_rspammer with the following parameters:
 message payload size: 32 bytes
 message index: iota_rspammer
 node url: http://api.hornet-1.testnet.chrysalis2.com/
-network ID: alphanet1
 local PoW: false
 
 Created IOTA Client 1.
