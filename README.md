@@ -51,7 +51,7 @@ OPTIONS:
 $ cargo run -- -n 3 -m 32 -i rspammer_index -u http://api.hornet-1.testnet.chrysalis2.com/
 Starting iota_rspammer with the following parameters:
 message payload size: 32 bytes
-message index: iota_rspammer
+message index: rspammer_index
 node url: http://api.hornet-1.testnet.chrysalis2.com/
 local PoW: false
 
