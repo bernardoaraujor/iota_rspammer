@@ -20,15 +20,16 @@ Provides insight into underlying statistical patterns of the protocol from the p
 
 ## Build
 ```
-$ sudo apt-get install libgsl0-dev cargo pkg-config libssl-dev
+$ sudo apt-get install libgsl0-dev pkg-config libssl-dev
+$ sudo curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 $ git clone https://github.com/bernardoaraujor/iota_rspammer.git
 $ cd iota_rspammer
-$ cargo build
+$ cargo build --release
 ```
 
 ## Run
 ```
-$ cargo run -- -h
+$ cargo run --release -h
 iota_rspammer 0.1.1
 
 USAGE:
@@ -48,11 +49,11 @@ OPTIONS:
 ```
 
 ```
-$ cargo run -- -n 3 -m 32 -i rspammer_index -u http://api.hornet-1.testnet.chrysalis2.com/
+$ cargo run --release -- -n 3 -m 32 -i rspammer_index -u http://127.0.0.1:14265
 Starting iota_rspammer with the following parameters:
 message payload size: 32 bytes
 message index: rspammer_index
-node url: http://api.hornet-1.testnet.chrysalis2.com/
+node url: http://127.0.0.1:14265/
 local PoW: false
 
 Created IOTA Client 1.
