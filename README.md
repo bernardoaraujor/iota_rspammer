@@ -46,14 +46,15 @@ OPTIONS:
     -n, --n_threads <n-threads>    Number of Spammer Threads [default: 1]
     -t, --timeout <timeout>        Set Timeout (seconds) [default: 500]
     -u, --url <url>                Node URL [default: http://api.hornet-1.testnet.chrysalis2.com]
+                                   (Note: You might need to specify the api port e.g. <URL>:14265)
 ```
 
 ```
-$ cargo run --release -- -n 3 -m 32 -i rspammer_index -u http://127.0.0.1:14265
+$ cargo run --release -- -n 3 -m 32 -i rspammer_index -u http://api.hornet-1.testnet.chrysalis2.com/
 Starting iota_rspammer with the following parameters:
 message payload size: 32 bytes
 message index: rspammer_index
-node url: http://127.0.0.1:14265/
+node url: http://api.hornet-1.testnet.chrysalis2.com//
 local PoW: false
 
 Created IOTA Client 1.
