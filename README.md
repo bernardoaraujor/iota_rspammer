@@ -29,7 +29,7 @@ $ cargo build --release
 
 ## Run
 ```
-$ cargo run --release -h
+$ cargo run --release -- -h
 iota_rspammer 0.1.1
 
 USAGE:
