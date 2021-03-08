@@ -4,6 +4,7 @@ use std::time::{Duration, Instant};
 use structopt::StructOpt;
 use tokio::sync::mpsc;
 use url::{Url};
+use std::{thread, time};
 
 fn parse_msg_size(size_str: String) -> usize {
     let size = match size_str.parse::<i32>() {
@@ -104,7 +105,11 @@ async fn main() {
             loop {
                 match iota.get_health().await.unwrap() {
                     true => (),
-                    false => panic!("unhealthy node!"),
+                    false => {
+                        println!("unhealty node...");
+                        thread::sleep(time::Duration::from_secs(1));
+                        continue;
+                    }
                 };
 
                 let start = Instant::now();
