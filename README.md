@@ -2,7 +2,7 @@
 
 Rust-based IOTA 1.5 Client Spammer (Post Chrysalis pt.2)
 
-Uses asynchronous message passing between spammer threads, each with its own IOTA Client.
+Uses asynchronous message passing between spammer tasks, each with its own IOTA Client.
 
 Allows custom Message Payload and Index, custom number of threads and optional local PoW.
 
