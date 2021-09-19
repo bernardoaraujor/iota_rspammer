@@ -1,4 +1,4 @@
-use iota::{Api, Client};
+use iota_client::{Api, Client};
 use rand::Rng;
 use std::time::{Duration, Instant};
 use structopt::StructOpt;
@@ -56,7 +56,7 @@ struct Opt {
 #[derive(Debug)]
 struct MsgResult {
     thread_n: u32,
-    msg: iota::MessageId,
+    msg: bee_message::MessageId,
     confirmation_t: Duration,
 }
 
